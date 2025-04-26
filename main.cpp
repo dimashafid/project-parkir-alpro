@@ -146,3 +146,17 @@ int main() {
     lobby();
     return 0;
 }
+// menu yang perlu dibuat
+// //Tambah data parkir baru
+
+// Lihat semua data parkir
+
+// Cari kendaraan (search plat nomor)
+
+// Urutkan kendaraan (sorting)
+
+// Hapus kendaraan keluar parkir
+
+// Simpan data ke file
+
+// Keluar
