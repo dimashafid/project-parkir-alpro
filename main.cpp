@@ -147,7 +147,7 @@ int main() {
     return 0;
 }
 // menu yang perlu dibuat
-// //Tambah data parkir baru
+// 1. Tambah data parkir baru untuk pengguan
 
 // Lihat semua data parkir
 
@@ -155,7 +155,7 @@ int main() {
 
 // Urutkan kendaraan (sorting)
 
-// Hapus kendaraan keluar parkir
+// Hapus kendaraan keluar parkir untuk penguna dan admin
 
 // Simpan data ke file
 
