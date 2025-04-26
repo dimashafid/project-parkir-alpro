@@ -24,9 +24,27 @@ void buatAkun();
 void lobby();
 
 void login() {
+
+    cout << "Anda ingin login sebagai apa?\n";
+    cout << "1. Admin\n" 
+         << "2. Pengguna Parkir\n"
+         << "=> ";
+    cin >> choice;
+}
+
+void Adminlogin (
+
     int percobaan = 3;
     bool berhasil = false;
+    int choice;
 
+    switch (choice) {
+    case 1 :  
+        break;
+    
+    default:
+        break;
+    }
     do {
         system("cls");
         cout << "================================\n";
@@ -57,7 +75,8 @@ void login() {
         }
 
     } while (!berhasil);
-}
+
+void pengguna()
 
 void buatAkun() {
     if (user >= maxUser) {
