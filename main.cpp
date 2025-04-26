@@ -22,61 +22,61 @@ Akun pengguna[maxUser] = {
 void login();
 void buatAkun();
 void lobby();
+void penggunaParkir();
+
 
 void login() {
+    int percobaan = 3;
+    bool berhasil = false;
+    int choice;
 
     cout << "Anda ingin login sebagai apa?\n";
     cout << "1. Admin\n" 
          << "2. Pengguna Parkir\n"
          << "=> ";
     cin >> choice;
+
+    if(choice != 1) {
+        penggunaParkir();
+    } else {
+        do {
+            system("cls");
+            cout << "================================\n";
+            cout << "|| Selamat Datang di Menu Login ||\n";
+            cout << "================================\n";
+            cout << "Masukkan Username: ";
+            getline(cin, inputUsn);
+    
+            cout << "Masukkan Password: ";
+            getline(cin, inputPass);
+    
+            for (int i = 0; i < user; i++) {
+                if (pengguna[i].username == inputUsn && pengguna[i].password == inputPass) {
+                    cout << "Login Berhasil. . .\n";
+                    cout << "Tekan Apapun untuk masuk ke Menu. . .";
+                    cin.get();
+                    return; // Kembali ke lobby setelah login berhasil
+                }
+            }
+    
+            percobaan--;
+            if (percobaan == 0) {
+                cout << "\nKesempatan Anda habis. Anda telah diblokir!\n";
+                exit(0);
+            } else {
+                cout << "Login Gagal. Kesempatan tersisa " << percobaan << " kali\n";
+                cin.get();
+            }
+    
+        } while (!berhasil);
+    }
+
+    
 }
 
-void Adminlogin (
-
-    int percobaan = 3;
-    bool berhasil = false;
-    int choice;
-
-    switch (choice) {
-    case 1 :  
-        break;
-    
-    default:
-        break;
-    }
-    do {
-        system("cls");
-        cout << "================================\n";
-        cout << "|| Selamat Datang di Menu Login ||\n";
-        cout << "================================\n";
-        cout << "Masukkan Username: ";
-        getline(cin, inputUsn);
-
-        cout << "Masukkan Password: ";
-        getline(cin, inputPass);
-
-        for (int i = 0; i < user; i++) {
-            if (pengguna[i].username == inputUsn && pengguna[i].password == inputPass) {
-                cout << "Login Berhasil. . .\n";
-                cout << "Tekan Apapun untuk masuk ke Menu. . .";
-                cin.get();
-                return; // Kembali ke lobby setelah login berhasil
-            }
-        }
-
-        percobaan--;
-        if (percobaan == 0) {
-            cout << "\nKesempatan Anda habis. Anda telah diblokir!\n";
-            exit(0);
-        } else {
-            cout << "Login Gagal. Kesempatan tersisa " << percobaan << " kali\n";
-            cin.get();
-        }
-
-    } while (!berhasil);
-
-void pengguna()
+void penggunaParkir() {
+    cout << "Tap Disini";
+}
 
 void buatAkun() {
     if (user >= maxUser) {
