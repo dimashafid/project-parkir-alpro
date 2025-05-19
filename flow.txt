@@ -20,6 +20,7 @@ Nomor Telepon (opsional)
 
 Slot Parkir (opsional, bisa random/ditentukan)
 
+
 3. Fitur untuk Pengunjung:
 
 Masukkan data kendaraan
@@ -41,5 +42,4 @@ Total pendapatan
 Lihat kendaraan yang kena denda
 
 Hapus data kendaraan (misalnya setelah keluar)
-
 
