@@ -43,3 +43,12 @@ Lihat kendaraan yang kena denda
 
 Hapus data kendaraan (misalnya setelah keluar)
 
+ Tahap 1 – Masuk:
+Input data kendaraan
+Simpan data dan waktu masuk
+Belum tahu waktu keluar, jadi kosong dulu
+
+🅱Tahap 2 – Keluar:
+Cari data kendaraan berdasarkan nomor plat
+Input waktu keluar
+Hitung durasi dan tampilkan total biaya, dll.
