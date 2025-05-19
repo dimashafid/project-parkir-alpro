@@ -16,7 +16,7 @@ Waktu Keluar (jika tersedia)
 
 Nama Pemilik
 
-Nomor Telepon (opsional)
+Nomor Telepon (opsional) 
 
 Slot Parkir (opsional, bisa random/ditentukan)
 
@@ -41,4 +41,5 @@ Total pendapatan
 Lihat kendaraan yang kena denda
 
 Hapus data kendaraan (misalnya setelah keluar)
+
 

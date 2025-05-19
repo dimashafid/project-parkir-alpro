@@ -6,6 +6,29 @@ using namespace std;
 
 string inputUsn, inputPass;
 
+struct Waktu{
+    int jam, menit, detik;
+};
+struct Pemilik{
+    string nama;
+    string nomor_plat;
+};
+struct Kendaraan{
+    Pemilik data_pemilik;
+    string jenis_kend;
+    Waktu waktu_masuk;
+    Waktu waktu_keluar;
+};
+
+void kendaraanMasuk(Kendaraan &k ){
+        cout << "Masukkan nama pemilik    : ";
+        getline(cin >> ws, k.data_pemilik.nama );
+        cout << "Masukkan jenis kendaraan : ";
+        getline(cin >> ws, k.jenis_kend );
+        cout << "Masukkan nomor plat      : ";
+        getline(cin >> ws, k.data_pemilik.nomor_plat);
+     
+}
 struct Akun {
     string username;
     string password;
@@ -145,7 +168,13 @@ void lobby() {
 int main() {
     lobby();
     return 0;
+    Kendaraan daftar[100];
+     int jumlah = 0;
+
+    kendaraanMasuk(daftar[jumlah]);
+    jumlah++;
 }
+
 // menu yang perlu dibuat
 // 1. Tambah data parkir baru untuk pengguan
 
