@@ -21,7 +21,6 @@ Nomor Telepon (opsional)
 Slot Parkir (opsional, bisa random/ditentukan)
 
 
-
 3. Fitur untuk Pengunjung:
 
 Masukkan data kendaraan
@@ -53,4 +52,5 @@ Tahap 2 – Keluar:
 Cari data kendaraan berdasarkan nomor plat
 Input waktu keluar
 Hitung durasi dan tampilkan total biaya, dll.
+Lihat denda (jika melebihi batas waktu atau parkir sembarangan)
 
