@@ -1,0 +1,44 @@
+1. Mode Login:
+
+Admin
+
+Pengunjung (ingin memarkir kendaraan)
+
+2. Data Kendaraan yang Diparkir (5 Data Minimum):
+
+Nomor Plat Kendaraan
+
+Jenis Kendaraan (motor/mobil/lainnya)
+
+Waktu Masuk
+
+Waktu Keluar (jika tersedia)
+
+Nama Pemilik
+
+Nomor Telepon (opsional)
+
+Slot Parkir (opsional, bisa random/ditentukan)
+
+3. Fitur untuk Pengunjung:
+
+Masukkan data kendaraan
+
+Lihat tagihan parkir
+
+Lihat denda (jika melebihi batas waktu atau parkir sembarangan)
+
+Keluar dari parkir (menghitung tagihan otomatis)
+
+4. Fitur untuk Admin:
+
+Lihat seluruh data kendaraan yang sedang parkir
+
+Riwayat transaksi parkir
+
+Total pendapatan
+
+Lihat kendaraan yang kena denda
+
+Hapus data kendaraan (misalnya setelah keluar)
+
