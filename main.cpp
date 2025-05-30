@@ -72,7 +72,7 @@ void bacaData() {
             getline(file, kendaraan[i].jenis_kend);
             file >> kendaraan[i].waktu_masuk.jam >> kendaraan[i].waktu_masuk.menit;
             file >> kendaraan[i].waktu_keluar.jam >> kendaraan[i].waktu_keluar.menit;
-            file.ignore(); // buang newline
+            file.ignore(); 
             getline(file, kendaraan[i].status);
 
             if (kendaraan[i].status == "ada") {
