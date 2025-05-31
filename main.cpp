@@ -279,6 +279,7 @@ void sortInsAsc(){
     showData();
 }
 
+
 void totalPendapatan() {
     bacaData(); 
     int totalPendapatan = 0;
@@ -296,6 +297,76 @@ void totalPendapatan() {
     cout << "====================================\n";
     system("PAUSE");
 }
+
+void searchSent(){
+    bacaData();
+    if (totalData == 0)
+    {
+        cout << "Belum ada data parkir.\n";
+        return;
+    }
+
+    string platCari;
+    bool ditemukan = false;
+
+    cout << "Masukan nomor plat yang dicari : " ;
+    getline(cin, platCari );
+
+    for (int  i = 0; i < totalData; i++)
+    {
+        if (kendaraan[i].nomor_plat == platCari)
+        {
+            cout << "Nomor Plat      : " << kendaraan[i].nomor_plat << endl;
+            cout << "Jenis Kendaraan : " << kendaraan[i].jenis_kend << endl;
+            cout << "Waktu Masuk     : " << kendaraan[i].waktu_masuk.jam << ":" << kendaraan[i].waktu_masuk.menit << endl;
+            cout << "Waktu Keluar    : " << kendaraan[i].waktu_keluar.jam << ":" << kendaraan[i].waktu_keluar.menit << endl;
+            cout << "Tarif           : " << kendaraan[i].tarif  << endl;
+            cout << "Status          : " << kendaraan[i].status << endl << endl;
+            ditemukan = true;
+            break;
+        }
+    }
+
+    if(!ditemukan){
+        cout << "Data tidak ditemukan" << endl;
+    }
+        system("pause");
+    }
+    
+
+//untuk mencari status kendaraan ada/tidak ada
+void searchNonSent(){
+    bacaData();
+    if (totalData == 0) {
+        cout << "Belum ada data parkir.\n";
+        return;
+    }
+
+    string statusCari;
+    int jumlahDapat = 0;
+
+    cout << "Masukkan status yang dicari (ada / keluar): ";
+    getline(cin, statusCari);
+
+    for (int i = 0; i < totalData; i++) {
+        if (kendaraan[i].status == statusCari) {
+            cout << "Nomor Plat      : " << kendaraan[i].nomor_plat << endl;
+            cout << "Jenis Kendaraan : " << kendaraan[i].jenis_kend << endl;
+            cout << "Waktu Masuk     : " << kendaraan[i].waktu_masuk.jam << ":" << kendaraan[i].waktu_masuk.menit << endl;
+            cout << "Waktu Keluar    : " << kendaraan[i].waktu_keluar.jam << ":" << kendaraan[i].waktu_keluar.menit << endl;
+            cout << "Tarif           : " << kendaraan[i].tarif << endl;
+            cout << "Status          : " << kendaraan[i].status << endl << endl;
+            jumlahDapat++;
+        }
+    }
+
+    if (jumlahDapat == 0) {
+        cout << "Tidak ada kendaraan dengan status '" << statusCari << "' ditemukan.\n";
+    }
+
+    system("pause");
+}
+
 
 void loading() {
     system("cls");
@@ -378,8 +449,9 @@ int main() {
                         cout << "[2] Tampilkan Semua Data\n";
                         cout << "[3] Kendaraan Keluar dan Tagihan\n";
                         cout << "[4] Lihat Kendaraan Berdasarkan Tarif\n";
-                        cout << "[5] Total Pendapatan Parkir\n";
-                        cout << "[6] Logout\n";
+                        cout << "[5] Mencari Kendaraan\n";
+                        cout << "[6] Total Pendapatan Parkir\n";
+                        cout << "[7] Logout\n";
                         cout << "====================================\n";
                         cout << "Pilih menu: ";
                         cin >> menu;
@@ -397,7 +469,7 @@ int main() {
                             case 3:
                                 kendaraanKeluar();
                                 break;
-                            case 4: {
+                            case 4: 
                                 int sort;
                                 do {
                                     system("cls");
@@ -428,12 +500,44 @@ int main() {
                                             break;
                                     }
                                 } while (sort != 3);
-                            }
+                            
                                 break;
                             case 5:
+                                int cari;
+                                    do {
+                                        system("cls");
+                                        cout << "=========== Menu Cari Kendaraan ============\n";
+                                        cout << "[1] Mencari Kendaraan berdasarkan nomor plat\n";
+                                        cout << "[2] Mencari Kendaraan berdasarkan status\n";
+                                        cout << "[3] Kembali ke menu parkir\n";
+                                        cout << "============================================\n";
+                                        cout << "Pilih searching : ";
+                                        cin >> cari;
+                                        cin.ignore();
+
+                                        switch (cari) {
+                                            case 1:
+                                                searchSent();
+                                                system("PAUSE");
+                                                break;
+                                            case 2:
+                                                searchNonSent();
+                                                system("PAUSE");
+                                                break;
+                                            case 3:
+                                                cout << "Kembali ke menu parkir...\n";
+                                                break;
+                                            default:
+                                                cout << "Pilihan tidak valid!\n";
+                                                system("PAUSE");
+                                                break;
+                                        }
+                                    } while (cari != 3);
+                                    break;    
+                            case 6 :
                                 totalPendapatan();
                                 break;
-                            case 6:
+                            case 7 :
                                 cout << "Logout berhasil.\n";
                                 system("PAUSE");
                                 break;
@@ -441,7 +545,7 @@ int main() {
                                 cout << "Menu tidak valid!\n";
                                 system("PAUSE");
                         }
-                    } while (menu != 6);
+                    } while (menu != 7);
                 }
                 break;
             case 2:

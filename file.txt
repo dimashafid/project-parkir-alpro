@@ -10,3 +10,9 @@ motor
 23 0
 30000
 keluar
+13
+mobil
+12 0
+0 0
+0
+ada
