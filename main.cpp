@@ -8,6 +8,7 @@
 
 using namespace std;
 
+
 const int maxMobil = 40;
 const int maxMotor = 50;
 int jumlahMobil = 0;
@@ -24,6 +25,7 @@ struct Kendaraan {
     Waktu waktu_masuk;
     Waktu waktu_keluar;
     string status;
+    int tarif;
 };
 
 Kendaraan kendaraan[100];
@@ -72,7 +74,8 @@ void bacaData() {
             getline(file, kendaraan[i].jenis_kend);
             file >> kendaraan[i].waktu_masuk.jam >> kendaraan[i].waktu_masuk.menit;
             file >> kendaraan[i].waktu_keluar.jam >> kendaraan[i].waktu_keluar.menit;
-            file.ignore(); 
+            file >> kendaraan[i].tarif;
+            file.ignore(); // buang newline
             getline(file, kendaraan[i].status);
 
             if (kendaraan[i].status == "ada") {
@@ -127,12 +130,14 @@ void tambahData() {
 
             kendaraan[totalData].waktu_keluar.jam = 0;
             kendaraan[totalData].waktu_keluar.menit = 0;
+            kendaraan[totalData].tarif = 0;
             kendaraan[totalData].status = "ada";
 
             file << kendaraan[totalData].nomor_plat << endl;
             file << kendaraan[totalData].jenis_kend << endl;
             file << kendaraan[totalData].waktu_masuk.jam << " " << kendaraan[totalData].waktu_masuk.menit << endl;
             file << kendaraan[totalData].waktu_keluar.jam << " " << kendaraan[totalData].waktu_keluar.menit << endl;
+            file << kendaraan[totalData].tarif << endl;
             file << kendaraan[totalData].status << endl;
 
             totalData++;
@@ -151,11 +156,12 @@ void showData() {
     cout << "Data Kendaraan:\n";
     for (int i = 0; i < totalData; i++) {
         cout << "Kendaraan [" << i + 1 << "]\n";
-        cout << "Nomor Plat   : " << kendaraan[i].nomor_plat << endl;
+        cout << "Nomor Plat      : " << kendaraan[i].nomor_plat << endl;
         cout << "Jenis Kendaraan : " << kendaraan[i].jenis_kend << endl;
-        cout << "Waktu Masuk  : " << kendaraan[i].waktu_masuk.jam << ":" << kendaraan[i].waktu_masuk.menit << endl;
-        cout << "Waktu Keluar : " << kendaraan[i].waktu_keluar.jam << ":" << kendaraan[i].waktu_keluar.menit << endl;
-        cout << "Status       : " << kendaraan[i].status << endl << endl;
+        cout << "Waktu Masuk     : " << kendaraan[i].waktu_masuk.jam << ":" << kendaraan[i].waktu_masuk.menit << endl;
+        cout << "Waktu Keluar    : " << kendaraan[i].waktu_keluar.jam << ":" << kendaraan[i].waktu_keluar.menit << endl;
+        cout << "Tarif           : " << kendaraan[i].tarif  << endl;
+        cout << "Status          : " << kendaraan[i].status << endl << endl;
     }
     cout << "Slot Tersisa Mobil: " << maxMobil - jumlahMobil << endl;
     cout << "Slot Tersisa Motor: " << maxMotor - jumlahMotor << endl;
@@ -184,7 +190,7 @@ void kendaraanKeluar() {
             int totalJam = durasiMenit / 60;
             int sisaMenit = durasiMenit % 60;
 
-            int tarif;
+             int tarif;
             if (kendaraan[i].jenis_kend == "mobil") {
                 tarif = 5000;
             } else {
@@ -200,13 +206,13 @@ void kendaraanKeluar() {
 
             cout << "Durasi parkir: " << totalJam << " jam " << sisaMenit << " menit\n";
             cout << "Total bayar: Rp" << bayar << endl;
-
+            kendaraan[i].tarif = bayar;
             kendaraan[i].status = "keluar";
 
-            if (kendaraan[i].jenis_kend == "mobil") {
-                jumlahMobil--;
-            } else if (kendaraan[i].jenis_kend == "motor") {
-                jumlahMotor--;
+            if (kendaraan[i].jenis_kend == "mobil"){
+            jumlahMobil--;
+            }else if (kendaraan[i].jenis_kend == "motor"){
+            jumlahMotor--;
             }
 
             ditemukan = true;
@@ -214,11 +220,210 @@ void kendaraanKeluar() {
         }
     }
 
-    if (!ditemukan) {
+    if (ditemukan) {
+        fstream file(namafile.c_str(), ios::out);
+        for (int i = 0; i < totalData; i++) {
+            file << kendaraan[i].nomor_plat << endl;
+            file << kendaraan[i].jenis_kend << endl;
+            file << kendaraan[i].waktu_masuk.jam << " " << kendaraan[i].waktu_masuk.menit << endl;
+            file << kendaraan[i].waktu_keluar.jam << " " << kendaraan[i].waktu_keluar.menit << endl;
+            file << kendaraan[i].tarif << endl;
+            file << kendaraan[i].status << endl;
+        }
+        file.close();
+        cout << "Status kendaraan diperbarui menjadi 'keluar'.\n";
+        system("PAUSE");
+    } else {
         cout << "Kendaraan dengan plat tersebut tidak ditemukan atau sudah keluar.\n";
+        system("PAUSE");
     }
 }
 
+void sortShellDesc(){
+    bacaData();
+    Kendaraan temp;
+
+    for (int gap = totalData / 2; gap > 0; gap /= 2)
+    {
+        int j;
+        for (int i = gap; i < totalData; i++)
+        {
+            temp = kendaraan[i]; 
+            j = i;         
+            while ((temp.tarif > kendaraan[j - gap].tarif) && (j >= gap))
+            {
+                kendaraan[j] = kendaraan[j - gap];
+                j = j - gap;
+            }
+            kendaraan[j] = temp;
+        }
+    }
+    showData();
+}
+
+void sortInsAsc(){
+    bacaData();
+    int j;
+    Kendaraan temp;
+    for (int i = 1; i < totalData; i++)
+    {
+        temp = kendaraan[i];
+        j = i - 1;
+        while ((j >= 0) && (temp.tarif < kendaraan[j].tarif))
+        {
+            kendaraan[j + 1] = kendaraan[j];
+            j = j - 1;
+        }
+        kendaraan[j + 1] = temp;
+    }
+    showData();
+}
+
+
+void totalPendapatan() {
+    bacaData(); 
+    int totalPendapatan = 0;
+
+    for (int i = 0; i < totalData; i++) {
+        if (kendaraan[i].status == "keluar") {
+            totalPendapatan += kendaraan[i].tarif;
+        }
+    }
+
+    cout << "\n====================================\n";
+    cout << "     Total Pendapatan Parkir        \n";
+    cout << "====================================\n";
+    cout << "Total Pendapatan: Rp" << totalPendapatan << endl;
+    cout << "====================================\n";
+    system("PAUSE");
+}
+
+void searchSent(){
+    bacaData();
+    if (totalData == 0)
+    {
+        cout << "Belum ada data parkir.\n";
+        return;
+    }
+
+    string platCari;
+    bool ditemukan = false;
+
+    cout << "Masukan nomor plat yang dicari : " ;
+    getline(cin, platCari );
+
+    for (int  i = 0; i < totalData; i++)
+    {
+        if (kendaraan[i].nomor_plat == platCari)
+        {
+            cout << "Nomor Plat      : " << kendaraan[i].nomor_plat << endl;
+            cout << "Jenis Kendaraan : " << kendaraan[i].jenis_kend << endl;
+            cout << "Waktu Masuk     : " << kendaraan[i].waktu_masuk.jam << ":" << kendaraan[i].waktu_masuk.menit << endl;
+            cout << "Waktu Keluar    : " << kendaraan[i].waktu_keluar.jam << ":" << kendaraan[i].waktu_keluar.menit << endl;
+            cout << "Tarif           : " << kendaraan[i].tarif  << endl;
+            cout << "Status          : " << kendaraan[i].status << endl << endl;
+            ditemukan = true;
+            break;
+        }
+    }
+
+    if(!ditemukan){
+        cout << "Data tidak ditemukan" << endl;
+    }
+        system("pause");
+    }
+    
+void urutindataAsc() {
+    bacaData();
+    Kendaraan temp;
+    for (int i = 1; i < totalData; i++) {
+        temp = kendaraan[i];
+        int j = i - 1;
+        while (j >= 0 && kendaraan[j].nomor_plat > temp.nomor_plat) {
+            kendaraan[j + 1] = kendaraan[j];
+            j--;
+        }
+        kendaraan[j + 1] = temp;
+    }
+}
+
+void binarySearchTarif() {
+    bacaData();
+    urutindataAsc();
+
+    int cariTarif;
+    cout << "Masukkan tarif yang ingin dicari: Rp";
+    cin >> cariTarif;
+    cin.ignore();
+
+    int kiri = 0, atas = totalData - 1, tengah;
+    bool ditemukan = false;
+
+    cout << "\nHasil Pencarian:\n";
+    while (kiri <= atas) {
+        tengah = (kiri + atas) / 2;
+        if (kendaraan[tengah].tarif == cariTarif) {
+            int mulai = tengah, akhir = tengah;
+            while (mulai > 0 && kendaraan[mulai - 1].tarif == cariTarif) mulai--;
+            while (akhir < totalData - 1 && kendaraan[akhir + 1].tarif == cariTarif) akhir++;
+
+            for (int i = mulai; i <= akhir; i++) {
+                cout << "Nomor Plat      : " << kendaraan[i].nomor_plat << endl;
+                cout << "Jenis Kendaraan : " << kendaraan[i].jenis_kend << endl;
+                cout << "Waktu Masuk     : " << kendaraan[i].waktu_masuk.jam << ":" << kendaraan[i].waktu_masuk.menit << endl;
+                cout << "Waktu Keluar    : " << kendaraan[i].waktu_keluar.jam << ":" << kendaraan[i].waktu_keluar.menit << endl;
+                cout << "Tarif           : Rp" << kendaraan[i].tarif << endl;
+                cout << "Status          : " << kendaraan[i].status << "\n\n";
+            }
+            ditemukan = true;
+            break;
+        } else if (kendaraan[tengah].tarif < cariTarif) {
+            kiri = tengah + 1;
+        } else {
+            atas = tengah - 1;
+        }
+    }
+
+    if (!ditemukan) {
+        cout << "Data dengan tarif Rp" << cariTarif << " tidak ditemukan.\n";
+    }
+
+    system("PAUSE");
+}
+
+
+//untuk mencari status kendaraan ada/tidak ada
+void searchNonSent(){
+    bacaData();
+    if (totalData == 0) {
+        cout << "Belum ada data parkir.\n";
+        return;
+    }
+
+    string statusCari;
+    int jumlahDapat = 0;
+
+    cout << "Masukkan status yang dicari (ada / keluar): ";
+    getline(cin, statusCari);
+
+    for (int i = 0; i < totalData; i++) {
+        if (kendaraan[i].status == statusCari) {
+            cout << "Nomor Plat      : " << kendaraan[i].nomor_plat << endl;
+            cout << "Jenis Kendaraan : " << kendaraan[i].jenis_kend << endl;
+            cout << "Waktu Masuk     : " << kendaraan[i].waktu_masuk.jam << ":" << kendaraan[i].waktu_masuk.menit << endl;
+            cout << "Waktu Keluar    : " << kendaraan[i].waktu_keluar.jam << ":" << kendaraan[i].waktu_keluar.menit << endl;
+            cout << "Tarif           : " << kendaraan[i].tarif << endl;
+            cout << "Status          : " << kendaraan[i].status << endl << endl;
+            jumlahDapat++;
+        }
+    }
+
+    if (jumlahDapat == 0) {
+        cout << "Tidak ada kendaraan dengan status '" << statusCari << "' ditemukan.\n";
+    }
+
+    system("pause");
+}
 
 
 void loading() {
@@ -301,7 +506,10 @@ int main() {
                         cout << "[1] Tambah Data Kendaraan\n";
                         cout << "[2] Tampilkan Semua Data\n";
                         cout << "[3] Kendaraan Keluar dan Tagihan\n";
-                        cout << "[4] Logout\n";
+                        cout << "[4] Lihat Kendaraan Berdasarkan Tarif\n";
+                        cout << "[5] Mencari Kendaraan\n";
+                        cout << "[6] Total Pendapatan Parkir\n";
+                        cout << "[7] Logout\n";
                         cout << "====================================\n";
                         cout << "Pilih menu: ";
                         cin >> menu;
@@ -319,7 +527,81 @@ int main() {
                             case 3:
                                 kendaraanKeluar();
                                 break;
-                            case 4:
+                            case 4: 
+                                int sort;
+                                do {
+                                    system("cls");
+                                    cout << "========= Sorting Tarif Kendaraan ==========\n";
+                                    cout << "[1] Urutkan data: tarif terkecil ke terbesar\n";
+                                    cout << "[2] Urutkan data: tarif terbesar ke terkecil\n";
+                                    cout << "[3] Kembali ke menu parkir\n";
+                                    cout << "============================================\n";
+                                    cout << "Pilih sorting : ";
+                                    cin >> sort;
+                                    cin.ignore();
+
+                                    switch (sort) {
+                                        case 1:
+                                            sortInsAsc();
+                                            system("PAUSE");
+                                            break;
+                                        case 2:
+                                            sortShellDesc();
+                                            system("PAUSE");
+                                            break;
+                                        case 3:
+                                            cout << "Kembali ke menu parkir...\n";
+                                            break;
+                                        default:
+                                            cout << "Pilihan tidak valid!\n";
+                                            system("PAUSE");
+                                            break;
+                                    }
+                                } while (sort != 3);
+                            
+                                break;
+                            case 5:
+                                int cari;
+                                    do {
+                                        system("cls");
+                                        cout << "=========== Menu Cari Kendaraan ============\n";
+                                        cout << "[1] Mencari Kendaraan berdasarkan nomor plat\n";
+                                        cout << "[2] Mencari Kendaraan berdasarkan status\n";
+                                        cout << "[3] Mencari Kendaraan bedasarkan tarif\n";
+                                        cout << "[3] Kembali ke menu parkir\n";
+                                        cout << "============================================\n";
+                                        cout << "Pilih searching : ";
+                                        cin >> cari;
+                                        cin.ignore();
+
+                                        switch (cari) {
+                                            case 1:
+                                                searchSent();
+                                                system("PAUSE");
+                                                break;
+                                            case 2:
+                                                searchNonSent();
+                                                system("PAUSE");
+                                                break;
+                                            case 3:
+                                                binarySearchTarif();
+                                                system("PAUSE");
+                                                break;
+                                            case 4:
+                                                cout << "Kembali ke menu parkir...\n";
+                                                break;
+
+                                            default:
+                                                cout << "Pilihan tidak valid!\n";
+                                                system("PAUSE");
+                                                break;
+                                        }
+                                    } while (cari != 3);
+                                    break;    
+                            case 6 :
+                                totalPendapatan();
+                                break;
+                            case 7 :
                                 cout << "Logout berhasil.\n";
                                 system("PAUSE");
                                 break;
@@ -327,7 +609,7 @@ int main() {
                                 cout << "Menu tidak valid!\n";
                                 system("PAUSE");
                         }
-                    } while (menu != 4);
+                    } while (menu != 7);
                 }
                 break;
             case 2:
